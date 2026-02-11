@@ -72,12 +72,16 @@ def build_vectorstore():
 
     # --- 사고사례 인덱싱 ---
     if case_col.count() == 0:
-        cases = _load_jsonl(DATA_DIR / "cases.jsonl")
-        cases = [
-            c
-            for c in cases
-            if c.get("accident_summary") or c.get("accident_detail")
-        ]
+        raw_cases = _load_jsonl(DATA_DIR / "cases.jsonl")
+        # 중복 ID 제거 (첫 번째 등장만 유지)
+        seen_ids: set[str] = set()
+        cases = []
+        for c in raw_cases:
+            if c["id"] not in seen_ids and (
+                c.get("accident_summary") or c.get("accident_detail")
+            ):
+                seen_ids.add(c["id"])
+                cases.append(c)
         progress = st.progress(0, text=f"사고사례 {len(cases):,}건 임베딩 생성 중...")
         for i in range(0, len(cases), BATCH_SIZE):
             batch = cases[i : i + BATCH_SIZE]
