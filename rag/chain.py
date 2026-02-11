@@ -19,7 +19,7 @@ SYSTEM_PROMPT = """당신은 건설 안전 전문가입니다.
 
 
 def retrieve(
-    query: str, reg_col, case_col, k: int = 3
+    query: str, reg_col, case_col, k: int = 5
 ) -> tuple[list[dict], list[dict]]:
     """규정 + 사고사례 양쪽에서 검색."""
     regulations = search(reg_col, query, k=k)
