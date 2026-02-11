@@ -1,4 +1,7 @@
 streamlit>=1.40
 openai>=1.0
 chromadb>=0.5
+onnxruntime
+tokenizers>=0.13
+pysqlite3-binary
 python-dotenv

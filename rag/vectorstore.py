@@ -1,5 +1,13 @@
 """ChromaDB 벡터 스토어 — 기본 임베딩 (all-MiniLM-L6-v2, 로컬, 무료)."""
 
+# Streamlit Cloud의 SQLite가 ChromaDB 요구 버전보다 낮을 수 있음
+try:
+    __import__("pysqlite3")
+    import sys
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
+
 import json
 from pathlib import Path
 
